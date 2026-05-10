@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-58#*a5pzkviciap*6u(39%ry0viuwh(h#4$sjc61^_#9gkt@5s
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ALLOWED_HOSTS = ["django-project-jjp8.onrender.com"]]
 
 INSTALLED_APPS = [
     'students_app',
