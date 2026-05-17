@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Finder</title>
+</head>
+
+<body>
+
+<h2>Find Nearby Places</h2>
+
+<button onclick="getLocation()">📍 Find Nearby Hospitals</button>
+
+<p id="output"></p>
+
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        document.getElementById("output").innerHTML = "Geolocation not supported";
+    }
+}
+
+function showPosition(position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+
+    document.getElementById("output").innerHTML =
+        "Latitude: " + lat + "<br>Longitude: " + lon;
+
+    // Call Django backend
+    fetch(`/get_places/?lat=${lat}&lon=${lon}`)
+    .then(res => res.json())
+    .then(data => {
+        let result = "<h3>Nearby Places:</h3>";
+        data.places.forEach(place => {
+            result += "<p>" + place + "</p>";
+        });
+        document.getElementById("output").innerHTML = result;
+    });
+}
+</script>
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -65,10 +66,19 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
 LOGOUT_REDIRECT_URL = '/login/'
+if os.environ.get('CREATE_SUPERUSER') == 'True':
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    if not User.objects.filter(username='sekhar').exists():
+        User.objects.create_superuser(
+            username='sekhar',
+            email='sekhar26@gmail.com',
+            password='sekhar@1234'
+        )
